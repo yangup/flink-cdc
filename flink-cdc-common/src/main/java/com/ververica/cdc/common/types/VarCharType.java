@@ -46,13 +46,13 @@ public final class VarCharType extends DataType {
 
     public VarCharType(boolean isNullable, int length) {
         super(isNullable, DataTypeRoot.VARCHAR);
-        if (length < MIN_LENGTH) {
-            throw new IllegalArgumentException(
-                    String.format(
-                            "Variable character string length must be between %d and %d (both inclusive).",
-                            MIN_LENGTH, MAX_LENGTH));
-        }
-        this.length = length;
+//        if (length < MIN_LENGTH) {
+//            throw new IllegalArgumentException(
+//                    String.format(
+//                            "Variable character string length must be between %d and %d (both inclusive).",
+//                            MIN_LENGTH, MAX_LENGTH));
+//        }
+        this.length = Math.max(MIN_LENGTH, length);
     }
 
     public VarCharType(int length) {

@@ -133,7 +133,9 @@ public class MySqlTypeUtils {
                 // user should not use tinyint(1) to store number although jdbc url parameter
                 // tinyInt1isBit=false can help change the return value, it's not a general way
                 // btw: mybatis and mysql-connector-java map tinyint(1) to boolean by default
-                return column.length() == 1 ? DataTypes.BOOLEAN() : DataTypes.TINYINT();
+//                return column.length() == 1 ? DataTypes.BOOLEAN() : DataTypes.TINYINT();
+                // tinyint 直接转 tinyint 不用 boolean 的 数值
+                return DataTypes.TINYINT();
             case TINYINT_UNSIGNED:
             case TINYINT_UNSIGNED_ZEROFILL:
             case SMALLINT:
@@ -196,7 +198,8 @@ public class MySqlTypeUtils {
                         ? DataTypes.TIMESTAMP_LTZ(column.length())
                         : DataTypes.TIMESTAMP_LTZ(0);
             case CHAR:
-                return DataTypes.CHAR(column.length());
+                // chart 使用 VARCHAR 来存储
+//                return DataTypes.CHAR(column.length());
             case VARCHAR:
                 return DataTypes.VARCHAR(column.length());
             case TINYTEXT:
@@ -232,5 +235,6 @@ public class MySqlTypeUtils {
         }
     }
 
-    private MySqlTypeUtils() {}
+    private MySqlTypeUtils() {
+    }
 }

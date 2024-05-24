@@ -132,6 +132,21 @@ public class MySqlSnapshotSplit extends MySqlSplit {
                 splitKeyType.getFields().stream()
                         .map(RowType.RowField::asSummaryString)
                         .collect(Collectors.joining(",", "[", "]"));
+
+        StringBuffer sb = new StringBuffer();
+        for (TableId key : tableSchemas.keySet()) {
+            if (sb.length() > 0) {
+                sb.append("++");
+            }
+            sb.append(key.identifier());
+            sb.append("_" + key.catalog());
+            sb.append("_" + key.schema());
+            sb.append("_" + key.table());
+            sb.append("=");
+            TableChange value = tableSchemas.get(key);
+            sb.append(value.toString());
+        }
+
         return "MySqlSnapshotSplit{"
                 + "tableId="
                 + tableId
@@ -140,6 +155,8 @@ public class MySqlSnapshotSplit extends MySqlSplit {
                 + '\''
                 + ", splitKeyType="
                 + splitKeyTypeSummary
+                + ", tableSchemas="
+                + sb
                 + ", splitStart="
                 + Arrays.toString(splitStart)
                 + ", splitEnd="

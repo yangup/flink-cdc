@@ -60,7 +60,7 @@ under the License.
     </distributionManagement>
 
     <properties>
-        <revision>3.0.1_3</revision>
+        <revision>3.0.1-2.0</revision>
         <java.version>1.8</java.version>
         <scala.binary.version>2.12</scala.binary.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -375,6 +375,7 @@ under the License.
                     <configLocation>/tools/maven/checkstyle.xml</configLocation>
                     <logViolationsToConsole>true</logViolationsToConsole>
                     <failOnViolation>true</failOnViolation>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
 

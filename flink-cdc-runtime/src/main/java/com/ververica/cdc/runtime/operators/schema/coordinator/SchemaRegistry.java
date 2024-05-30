@@ -152,8 +152,14 @@ public class SchemaRegistry implements OperatorCoordinator, CoordinationRequestH
     @Override
     public CompletableFuture<CoordinationResponse> handleCoordinationRequest(
             CoordinationRequest request) {
+        // 表结构
+        LOG.info("CoordinationRequest : {}", request);
         if (request instanceof SchemaChangeRequest) {
             SchemaChangeRequest schemaChangeRequest = (SchemaChangeRequest) request;
+            LOG.info(
+                    "SchemaChangeRequest tableId : {}, schemaChangeEvent : {}",
+                    schemaChangeRequest.getTableId(),
+                    schemaChangeRequest.getSchemaChangeEvent());
             return requestHandler.handleSchemaChangeRequest(schemaChangeRequest);
         } else if (request instanceof ReleaseUpstreamRequest) {
             return requestHandler.handleReleaseUpstreamRequest();

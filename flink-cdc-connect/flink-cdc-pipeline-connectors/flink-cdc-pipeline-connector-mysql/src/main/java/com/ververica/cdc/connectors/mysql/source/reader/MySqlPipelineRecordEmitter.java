@@ -54,7 +54,9 @@ import static com.ververica.cdc.connectors.mysql.debezium.DebeziumUtils.openJdbc
 import static com.ververica.cdc.connectors.mysql.source.utils.RecordUtils.isLowWatermarkEvent;
 import static com.ververica.cdc.connectors.mysql.source.utils.TableDiscoveryUtils.listTables;
 
-/** The {@link RecordEmitter} implementation for pipeline mysql connector. */
+/**
+ * The {@link RecordEmitter} implementation for pipeline mysql connector.
+ */
 public class MySqlPipelineRecordEmitter extends MySqlRecordEmitter<Event> {
 
     private static final Logger LOG = LoggerFactory.getLogger(MySqlPipelineRecordEmitter.class);
@@ -201,6 +203,8 @@ public class MySqlPipelineRecordEmitter extends MySqlRecordEmitter<Event> {
 
             String colName = column.name();
             DataType dataType = MySqlTypeUtils.fromDbzColumn(column);
+            // todo : 日志, 没有打印出来
+            LOG.info("parseDDL, column: {}, result: {} ", column, dataType);
             if (!column.isOptional()) {
                 dataType = dataType.notNull();
             }

@@ -1,5 +1,3 @@
 # 打包
 
-mvn spotless:apply
-
-mvn clean package -DskipTests
+mvn spotless:apply;mvn clean package -DskipTests;

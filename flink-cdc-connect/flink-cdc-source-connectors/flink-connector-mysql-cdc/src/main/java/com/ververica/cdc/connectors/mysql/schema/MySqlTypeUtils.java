@@ -197,7 +197,8 @@ public class MySqlTypeUtils {
                         ? DataTypes.TIMESTAMP_LTZ(column.length())
                         : DataTypes.TIMESTAMP_LTZ(0);
             case CHAR:
-                return DataTypes.CHAR(column.length());
+                //  chart 使用 VARCHAR 来存储
+//                return DataTypes.CHAR(column.length());
             case VARCHAR:
                 return DataTypes.VARCHAR(column.length());
             case TINYTEXT:

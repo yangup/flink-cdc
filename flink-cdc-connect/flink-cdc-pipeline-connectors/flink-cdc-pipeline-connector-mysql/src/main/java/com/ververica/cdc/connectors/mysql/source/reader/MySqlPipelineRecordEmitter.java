@@ -194,6 +194,7 @@ public class MySqlPipelineRecordEmitter extends MySqlRecordEmitter<Event> {
     }
 
     private Schema parseDDL(String ddlStatement, TableId tableId) {
+        LOG.info("parseDDL, ddlStatement: {}, tableId: {} ", ddlStatement, tableId);
         Table table = parseDdl(ddlStatement, tableId);
 
         List<Column> columns = table.columns();

@@ -205,6 +205,7 @@ public class MySqlPipelineRecordEmitter extends MySqlRecordEmitter<Event> {
             String colName = column.name();
             DataType dataType = MySqlTypeUtils.fromDbzColumn(column);
             // todo : 日志, 在 task manager 中
+
             LOG.info("parseDDL, column: {}, result: {} ", column, dataType);
             if (!column.isOptional()) {
                 dataType = dataType.notNull();

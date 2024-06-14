@@ -54,8 +54,13 @@ public class MySqlPipelineRecordEmitterTest {
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商户企业信息'";
         TableId tableId = new TableId("yangpu_6", "", "t_yp_5");
         LOG.info("parseDDL, ddlStatement: {}, tableId: {} ", ddlStatement, tableId);
-//        Table table = parseDdl(ddlStatement, tableId);
-        MySqlAntlrDdlParser mySqlAntlrDdlParser = new MySqlAntlrDdlParser();
+        // 包含注释
+        MySqlAntlrDdlParser mySqlAntlrDdlParser = new MySqlAntlrDdlParser(
+                true,
+                false,
+                true,
+                null,
+                Tables.TableFilter.includeAll());
         mySqlAntlrDdlParser.setCurrentDatabase(tableId.catalog());
         Tables tables = new Tables();
         mySqlAntlrDdlParser.parse(ddlStatement, tables);

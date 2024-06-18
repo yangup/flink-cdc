@@ -16,6 +16,7 @@
 
 package com.ververica.cdc.connectors.doris.sink;
 
+import org.apache.doris.flink.catalog.doris.DorisType;
 import org.apache.flink.util.CollectionUtil;
 
 import com.ververica.cdc.common.configuration.Configuration;
@@ -53,7 +54,9 @@ import java.util.Map;
 
 import static com.ververica.cdc.connectors.doris.sink.DorisDataSinkOptions.TABLE_CREATE_PROPERTIES_PREFIX;
 
-/** Supports {@link DorisDataSink} to schema evolution. */
+/**
+ * Supports {@link DorisDataSink} to schema evolution.
+ */
 public class DorisMetadataApplier implements MetadataApplier {
     private static final Logger LOG = LoggerFactory.getLogger(DorisMetadataApplier.class);
     private DorisOptions dorisOptions;
@@ -127,6 +130,10 @@ public class DorisMetadataApplier implements MetadataApplier {
                 typeString =
                         DorisTypeMapper.toDorisType(
                                 DataTypeUtils.toFlinkDataType(column.getType()));
+            }
+            // 将 DECIMALV3(20,0) 转换成 largeint
+            if (typeString.startsWith(DorisType.DECIMAL_V3) && typeString.contains("(20,0)")) {
+                typeString = DorisType.LARGEINT;
             }
             fieldSchemaMap.put(
                     column.getName(),

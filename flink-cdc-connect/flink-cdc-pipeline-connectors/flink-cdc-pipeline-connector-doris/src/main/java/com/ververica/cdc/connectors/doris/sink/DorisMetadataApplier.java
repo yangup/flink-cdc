@@ -132,7 +132,10 @@ public class DorisMetadataApplier implements MetadataApplier {
                                 DataTypeUtils.toFlinkDataType(column.getType()));
             }
             // 将 DECIMALV3(20,0) 转换成 largeint
-            if (typeString.startsWith(DorisType.DECIMAL_V3) && typeString.contains("(20,0)")) {
+            // %s(%s,%s)
+            if (typeString.contains(DorisType.DECIMAL_V3)
+                    && typeString.contains("(20,")
+                    && typeString.contains(",0)")) {
                 typeString = DorisType.LARGEINT;
             }
             fieldSchemaMap.put(

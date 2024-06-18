@@ -131,18 +131,23 @@ public class DorisMetadataApplier implements MetadataApplier {
                         DorisTypeMapper.toDorisType(
                                 DataTypeUtils.toFlinkDataType(column.getType()));
             }
-            // 将 DECIMALV3(20,0) 转换成 largeint
-            // %s(%s,%s)
-            if (typeString.contains(DorisType.DECIMAL_V3)
-                    && typeString.contains("(20,")
-                    && typeString.contains(",0)")) {
-                typeString = DorisType.LARGEINT;
-            }
+
             fieldSchemaMap.put(
                     column.getName(),
-                    new FieldSchema(column.getName(), typeString, column.getComment()));
+                    new FieldSchema(column.getName(), convertToLargeInt(typeString), column.getComment()));
         }
         return fieldSchemaMap;
+    }
+
+    public String convertToLargeInt(String typeString) {
+        // 将 DECIMALV3(20,0) 转换成 largeint
+        // %s(%s,%s)
+        if (typeString.contains(DorisType.DECIMAL_V3)
+                && typeString.contains("(20,")
+                && typeString.contains(",0)")) {
+            typeString = DorisType.LARGEINT;
+        }
+        return typeString;
     }
 
     private List<String> buildDistributeKeys(Schema schema) {
@@ -174,7 +179,7 @@ public class DorisMetadataApplier implements MetadataApplier {
                                 DataTypeUtils.toFlinkDataType(column.getType()));
             }
             FieldSchema addFieldSchema =
-                    new FieldSchema(column.getName(), typeString, column.getComment());
+                    new FieldSchema(column.getName(), convertToLargeInt(typeString), column.getComment());
             schemaChangeManager.addColumn(
                     tableId.getSchemaName(), tableId.getTableName(), addFieldSchema);
         }

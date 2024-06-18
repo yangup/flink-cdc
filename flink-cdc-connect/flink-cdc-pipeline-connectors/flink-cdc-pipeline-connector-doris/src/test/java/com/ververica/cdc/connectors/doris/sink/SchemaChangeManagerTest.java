@@ -16,7 +16,7 @@
 
 package com.ververica.cdc.connectors.doris.sink;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ververica.cdc.common.data.TimestampData;
 import com.ververica.cdc.common.data.binary.BinaryRecordData;
 import com.ververica.cdc.common.data.binary.BinaryStringData;
@@ -25,7 +25,7 @@ import com.ververica.cdc.common.types.DataType;
 import com.ververica.cdc.common.types.DataTypes;
 import com.ververica.cdc.common.types.RowType;
 import com.ververica.cdc.runtime.typeutils.BinaryRecordDataGenerator;
-import org.apache.commons.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
 import org.apache.doris.flink.exception.DorisSchemaChangeException;
 import org.apache.doris.flink.rest.RestService;
 import org.apache.http.HttpHeaders;

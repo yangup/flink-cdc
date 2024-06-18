@@ -53,41 +53,41 @@ public class SchemaChangeManagerTest {
 
     @Test
     public void testDorisExec() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String ddl = "CREATE TABLE IF NOT EXISTS `yangpu_6`.`t_yp_525`(`id` BIGINT COMMENT '企业ID',`name_code_varchar_yp_5_1` VARCHAR(8) COMMENT '企业杨普' ) UNIQUE KEY(`id`) DISTRIBUTED BY HASH(`id`) BUCKETS AUTO  PROPERTIES ('replication_num'='1','light_schema_change'='true')";
-        System.out.println(ddl);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String ddl = "CREATE TABLE IF NOT EXISTS `yangpu_6`.`t_yp_525`(`id` BIGINT COMMENT '企业ID',`name_code_varchar_yp_5_1` VARCHAR(8) COMMENT '企业杨普' ) UNIQUE KEY(`id`) DISTRIBUTED BY HASH(`id`) BUCKETS AUTO  PROPERTIES ('replication_num'='1','light_schema_change'='true')";
+//        System.out.println(ddl);
+////        Map<String, String> param = new HashMap<>();
+////        param.put("stmt", ddl);
+////        System.out.println(objectMapper.writeValueAsString(param));;
+//
+//        String CHECK_SCHEMA_CHANGE_API = "http://%s/api/enable_light_schema_change/%s/%s";
+//        String SCHEMA_CHANGE_API = "http://%s/api/query/default_cluster/%s";
+//
 //        Map<String, String> param = new HashMap<>();
 //        param.put("stmt", ddl);
-//        System.out.println(objectMapper.writeValueAsString(param));;
-
-        String CHECK_SCHEMA_CHANGE_API = "http://%s/api/enable_light_schema_change/%s/%s";
-        String SCHEMA_CHANGE_API = "http://%s/api/query/default_cluster/%s";
-
-        Map<String, String> param = new HashMap<>();
-        param.put("stmt", ddl);
-        String requestUrl = String.format(SCHEMA_CHANGE_API, "192.168.58.4:8030", "yangpu_6");
-        HttpPost httpPost = new HttpPost(requestUrl);
-        httpPost.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + new String(Base64.encodeBase64("root:".getBytes(StandardCharsets.UTF_8))));
-        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-        httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(param), StandardCharsets.UTF_8));
-//        httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(param)));
-
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        CloseableHttpResponse response = httpclient.execute(httpPost);
-        final int statusCode = response.getStatusLine().getStatusCode();
-        final String reasonPhrase = response.getStatusLine().getReasonPhrase();
-        if (statusCode == 200 && response.getEntity() != null) {
-            String loadResult = EntityUtils.toString(response.getEntity());
-            Map<String, Object> responseMap = objectMapper.readValue(loadResult, Map.class);
-            String code = responseMap.getOrDefault("code", "-1").toString();
-            if (code.equals("0")) {
-                System.out.println(code);
-            } else {
-                throw new DorisSchemaChangeException("Failed to schemaChange, response: " + loadResult);
-            }
-        } else {
-            throw new DorisSchemaChangeException("Failed to schemaChange, status: " + statusCode + ", reason: " + reasonPhrase);
-        }
+//        String requestUrl = String.format(SCHEMA_CHANGE_API, "192.168.58.4:8030", "yangpu_6");
+//        HttpPost httpPost = new HttpPost(requestUrl);
+//        httpPost.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + new String(Base64.encodeBase64("root:".getBytes(StandardCharsets.UTF_8))));
+//        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+//        httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(param), StandardCharsets.UTF_8));
+////        httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(param)));
+//
+//        CloseableHttpClient httpclient = HttpClients.createDefault();
+//        CloseableHttpResponse response = httpclient.execute(httpPost);
+//        final int statusCode = response.getStatusLine().getStatusCode();
+//        final String reasonPhrase = response.getStatusLine().getReasonPhrase();
+//        if (statusCode == 200 && response.getEntity() != null) {
+//            String loadResult = EntityUtils.toString(response.getEntity());
+//            Map<String, Object> responseMap = objectMapper.readValue(loadResult, Map.class);
+//            String code = responseMap.getOrDefault("code", "-1").toString();
+//            if (code.equals("0")) {
+//                System.out.println(code);
+//            } else {
+//                throw new DorisSchemaChangeException("Failed to schemaChange, response: " + loadResult);
+//            }
+//        } else {
+//            throw new DorisSchemaChangeException("Failed to schemaChange, status: " + statusCode + ", reason: " + reasonPhrase);
+//        }
 
 
     }

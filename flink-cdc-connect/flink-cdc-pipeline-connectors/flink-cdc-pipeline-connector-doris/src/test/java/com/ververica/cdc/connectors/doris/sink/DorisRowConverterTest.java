@@ -26,6 +26,8 @@ import com.ververica.cdc.common.types.RowType;
 import com.ververica.cdc.runtime.typeutils.BinaryRecordDataGenerator;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,7 +37,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/** A test for {@link DorisRowConverter} . */
+/**
+ * A test for {@link DorisRowConverter} .
+ */
 public class DorisRowConverterTest {
 
     @Test
@@ -60,21 +64,21 @@ public class DorisRowConverterTest {
         LocalDate date1 = LocalDate.of(2021, 1, 1);
 
         BinaryRecordDataGenerator generator =
-                new BinaryRecordDataGenerator(RowType.of(dataTypes.toArray(new DataType[] {})));
+                new BinaryRecordDataGenerator(RowType.of(dataTypes.toArray(new DataType[]{})));
         BinaryRecordData recordData =
                 generator.generate(
-                        new Object[] {
-                            true,
-                            1.2F,
-                            1.2345D,
-                            (byte) 1,
-                            (short) 32,
-                            64,
-                            128L,
-                            TimestampData.fromLocalDateTime(time1),
-                            (int) date1.toEpochDay(),
-                            BinaryStringData.fromString("a"),
-                            BinaryStringData.fromString("doris")
+                        new Object[]{
+                                true,
+                                1.2F,
+                                1.2345D,
+                                (byte) 1,
+                                (short) 32,
+                                64,
+                                128L,
+                                TimestampData.fromLocalDateTime(time1),
+                                (int) date1.toEpochDay(),
+                                BinaryStringData.fromString("a"),
+                                BinaryStringData.fromString("doris")
                         });
         List row = new ArrayList();
         for (int i = 0; i < recordData.getArity(); i++) {
@@ -83,6 +87,7 @@ public class DorisRowConverterTest {
                             columns.get(i).getType(), ZoneId.systemDefault());
             row.add(converter.serialize(i, recordData));
         }
+        System.out.println(row);
         Assert.assertEquals(
                 "[true, 1.2, 1.2345, 1, 32, 64, 128, 2021-01-01 08:00:00, 2021-01-01, a, doris]",
                 row.toString());

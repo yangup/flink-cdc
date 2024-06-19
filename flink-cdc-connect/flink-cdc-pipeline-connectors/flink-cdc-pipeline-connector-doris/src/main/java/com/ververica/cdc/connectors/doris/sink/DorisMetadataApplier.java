@@ -140,6 +140,7 @@ public class DorisMetadataApplier implements MetadataApplier {
     }
 
     public String convertToLargeInt(String typeString) {
+        LOG.info("yangpu_convertToLargeInt, source: {}", typeString);
         // 将 DECIMALV3(20,0) 转换成 largeint
         // %s(%s,%s)
         if (typeString.contains(DorisType.DECIMAL_V3)
@@ -147,6 +148,7 @@ public class DorisMetadataApplier implements MetadataApplier {
                 && typeString.contains(",0)")) {
             typeString = DorisType.LARGEINT;
         }
+        LOG.info("yangpu_convertToLargeInt, target: {}", typeString);
         return typeString;
     }
 

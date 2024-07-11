@@ -66,7 +66,7 @@ public class MySqlSourceConfigFactory implements Serializable {
     private double distributionFactorLower =
             MySqlSourceOptions.CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND.defaultValue();
     private boolean includeSchemaChanges = false;
-    private boolean scanNewlyAddedTableEnabled = true;
+    private boolean scanNewlyAddedTableEnabled = MySqlSourceOptions.SCAN_NEWLY_ADDED_TABLE_ENABLED.defaultValue();
     private boolean closeIdleReaders = false;
     private Properties jdbcProperties;
     private Duration heartbeatInterval = MySqlSourceOptions.HEARTBEAT_INTERVAL.defaultValue();

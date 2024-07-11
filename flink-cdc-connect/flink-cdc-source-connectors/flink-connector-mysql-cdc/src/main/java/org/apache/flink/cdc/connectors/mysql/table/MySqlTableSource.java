@@ -34,6 +34,8 @@ import org.apache.flink.table.connector.source.abilities.SupportsReadingMetadata
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.RowType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 
@@ -56,6 +58,8 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
  * description.
  */
 public class MySqlTableSource implements ScanTableSource, SupportsReadingMetadata {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySqlTableSource.class);
 
     private final ResolvedSchema physicalSchema;
     private final int port;
@@ -150,6 +154,8 @@ public class MySqlTableSource implements ScanTableSource, SupportsReadingMetadat
         this.heartbeatInterval = heartbeatInterval;
         this.chunkKeyColumn = chunkKeyColumn;
         this.skipSnapshotBackFill = skipSnapshotBackFill;
+
+        LOGGER.info("scanNewlyAddedTableEnabled: {}", scanNewlyAddedTableEnabled);
     }
 
     @Override
@@ -206,6 +212,7 @@ public class MySqlTableSource implements ScanTableSource, SupportsReadingMetadat
                             .chunkKeyColumn(new ObjectPath(database, tableName), chunkKeyColumn)
                             .skipSnapshotBackfill(skipSnapshotBackFill)
                             .build();
+            LOGGER.info("scanNewlyAddedTableEnabled enableParallelRead: {}", scanNewlyAddedTableEnabled);
             return SourceProvider.of(parallelSource);
         } else {
             org.apache.flink.cdc.connectors.mysql.MySqlSource.Builder<RowData> builder =
@@ -223,6 +230,7 @@ public class MySqlTableSource implements ScanTableSource, SupportsReadingMetadat
             Optional.ofNullable(serverId)
                     .ifPresent(serverId -> builder.serverId(Integer.parseInt(serverId)));
             DebeziumSourceFunction<RowData> sourceFunction = builder.build();
+            LOGGER.info("org.apache.flink.cdc.connectors.mysql.MySqlSource.Builder<RowData>: {}", hostname);
             return SourceFunctionProvider.of(sourceFunction, false);
         }
     }

@@ -48,38 +48,15 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_UPPER_BOUND;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.CHUNK_META_GROUP_SIZE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.CONNECTION_POOL_SIZE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.CONNECT_MAX_RETRIES;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.CONNECT_TIMEOUT;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.HEARTBEAT_INTERVAL;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.HOSTNAME;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.PASSWORD;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.PORT;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_INCREMENTAL_CLOSE_IDLE_READER_ENABLED;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_INCREMENTAL_SNAPSHOT_CHUNK_SIZE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_SNAPSHOT_FETCH_SIZE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_STARTUP_MODE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_STARTUP_SPECIFIC_OFFSET_FILE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_STARTUP_SPECIFIC_OFFSET_GTID_SET;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_STARTUP_SPECIFIC_OFFSET_POS;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_STARTUP_SPECIFIC_OFFSET_SKIP_EVENTS;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_STARTUP_SPECIFIC_OFFSET_SKIP_ROWS;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCAN_STARTUP_TIMESTAMP_MILLIS;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SCHEMA_CHANGE_ENABLED;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SERVER_ID;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.SERVER_TIME_ZONE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.TABLES;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.TABLES_EXCLUDE;
-import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.USERNAME;
+import static org.apache.flink.cdc.connectors.mysql.source.MySqlDataSourceOptions.*;
 import static org.apache.flink.cdc.connectors.mysql.source.utils.ObjectUtils.doubleCompare;
 import static org.apache.flink.cdc.debezium.table.DebeziumOptions.getDebeziumProperties;
 import static org.apache.flink.cdc.debezium.utils.JdbcUrlUtils.getJdbcProperties;
 import static org.apache.flink.util.Preconditions.checkState;
 
-/** A {@link Factory} to create {@link MySqlDataSource}. */
+/**
+ * A {@link Factory} to create {@link MySqlDataSource}.
+ */
 @Internal
 public class MySqlDataSourceFactory implements DataSourceFactory {
 
@@ -112,6 +89,7 @@ public class MySqlDataSourceFactory implements DataSourceFactory {
         double distributionFactorLower = config.get(CHUNK_KEY_EVEN_DISTRIBUTION_FACTOR_LOWER_BOUND);
 
         boolean closeIdleReaders = config.get(SCAN_INCREMENTAL_CLOSE_IDLE_READER_ENABLED);
+        boolean scanNewlyAddedTableEnabled = config.get(SCAN_NEWLY_ADDED_TABLE_ENABLED);
 
         Duration heartbeatInterval = config.get(HEARTBEAT_INTERVAL);
         Duration connectTimeout = config.get(CONNECT_TIMEOUT);
@@ -147,6 +125,7 @@ public class MySqlDataSourceFactory implements DataSourceFactory {
                         .splitMetaGroupSize(splitMetaGroupSize)
                         .distributionFactorLower(distributionFactorLower)
                         .distributionFactorUpper(distributionFactorUpper)
+                        .scanNewlyAddedTableEnabled(scanNewlyAddedTableEnabled)
                         .heartbeatInterval(heartbeatInterval)
                         .connectTimeout(connectTimeout)
                         .connectMaxRetries(connectMaxRetries)
@@ -326,7 +305,9 @@ public class MySqlDataSourceFactory implements DataSourceFactory {
         return serverIdValue;
     }
 
-    /** Checks the value of given integer option is valid. */
+    /**
+     * Checks the value of given integer option is valid.
+     */
     private void validateIntegerOption(
             ConfigOption<Integer> option, int optionValue, int exclusiveMin) {
         checkState(
@@ -336,7 +317,9 @@ public class MySqlDataSourceFactory implements DataSourceFactory {
                         option.key(), exclusiveMin, optionValue));
     }
 
-    /** Checks the value of given evenly distribution factor upper bound is valid. */
+    /**
+     * Checks the value of given evenly distribution factor upper bound is valid.
+     */
     private void validateDistributionFactorUpper(double distributionFactorUpper) {
         checkState(
                 doubleCompare(distributionFactorUpper, 1.0d) >= 0,
@@ -347,7 +330,9 @@ public class MySqlDataSourceFactory implements DataSourceFactory {
                         distributionFactorUpper));
     }
 
-    /** Checks the value of given evenly distribution factor lower bound is valid. */
+    /**
+     * Checks the value of given evenly distribution factor lower bound is valid.
+     */
     private void validateDistributionFactorLower(double distributionFactorLower) {
         checkState(
                 doubleCompare(distributionFactorLower, 0.0d) >= 0
@@ -360,7 +345,9 @@ public class MySqlDataSourceFactory implements DataSourceFactory {
                         distributionFactorLower));
     }
 
-    /** Replaces the default timezone placeholder with session timezone, if applicable. */
+    /**
+     * Replaces the default timezone placeholder with session timezone, if applicable.
+     */
     private static ZoneId getServerTimeZone(Configuration config) {
         final String serverTimeZone = config.get(SERVER_TIME_ZONE);
         if (serverTimeZone != null) {

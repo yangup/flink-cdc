@@ -358,31 +358,31 @@ public class MySqlSourceConfigFactory implements Serializable {
             jdbcProperties = new Properties();
         }
         LOGGER.info("scanNewlyAddedTableEnabled 1650: {}", scanNewlyAddedTableEnabled);
-        throw new RuntimeException("scanNewlyAddedTableEnabled __error_yangpu");
-//        return new MySqlSourceConfig(
-//                hostname,
-//                port,
-//                username,
-//                password,
-//                databaseList,
-//                tableList,
-//                serverIdRange,
-//                startupOptions,
-//                splitSize,
-//                splitMetaGroupSize,
-//                fetchSize,
-//                serverTimeZone,
-//                connectTimeout,
-//                connectMaxRetries,
-//                connectionPoolSize,
-//                distributionFactorUpper,
-//                distributionFactorLower,
-//                includeSchemaChanges,
-//                scanNewlyAddedTableEnabled,
-//                closeIdleReaders,
-//                props,
-//                jdbcProperties,
-//                chunkKeyColumns,
-//                skipSnapshotBackfill);
+//        throw new RuntimeException("scanNewlyAddedTableEnabled __error_yangpu");
+        return new MySqlSourceConfig(
+                hostname,
+                port,
+                username,
+                password,
+                databaseList,
+                tableList,
+                serverIdRange,
+                startupOptions,
+                splitSize,
+                splitMetaGroupSize,
+                fetchSize,
+                serverTimeZone,
+                connectTimeout,
+                connectMaxRetries,
+                connectionPoolSize,
+                distributionFactorUpper,
+                distributionFactorLower,
+                includeSchemaChanges,
+                scanNewlyAddedTableEnabled,
+                closeIdleReaders,
+                props,
+                jdbcProperties,
+                chunkKeyColumns,
+                skipSnapshotBackfill);
     }
 }

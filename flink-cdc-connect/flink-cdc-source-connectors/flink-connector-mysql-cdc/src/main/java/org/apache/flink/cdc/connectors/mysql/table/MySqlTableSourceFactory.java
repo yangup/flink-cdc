@@ -117,6 +117,8 @@ public class MySqlTableSourceFactory implements DynamicTableSourceFactory {
 
         OptionUtils.printOptions(IDENTIFIER, ((Configuration) config).toMap());
 
+        LOGGER.info("scanNewlyAddedTableEnabled: {}", scanNewlyAddedTableEnabled);
+
         return new MySqlTableSource(
                 physicalSchema,
                 port,

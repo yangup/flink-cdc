@@ -129,6 +129,8 @@ public class MySqlDataSourceFactory implements DataSourceFactory {
         Map<String, String> configMap = config.toMap();
         OptionUtils.printOptions(IDENTIFIER, config.toMap());
 
+        LOG.info("scanNewlyAddedTableEnabled config: {}", configMap);
+
         MySqlSourceConfigFactory configFactory =
                 new MySqlSourceConfigFactory()
                         .hostname(hostname)

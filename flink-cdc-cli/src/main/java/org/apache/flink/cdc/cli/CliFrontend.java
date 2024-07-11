@@ -54,6 +54,7 @@ public class CliFrontend {
     private static final String FLINK_CDC_HOME_ENV_VAR = "FLINK_CDC_HOME";
 
     public static void main(String[] args) throws Exception {
+        LOG.info("scanNewlyAddedTableEnabled_1");
         Options cliOptions = CliFrontendOptions.initializeOptions();
         CommandLineParser parser = new DefaultParser();
         CommandLine commandLine = parser.parse(cliOptions, args);

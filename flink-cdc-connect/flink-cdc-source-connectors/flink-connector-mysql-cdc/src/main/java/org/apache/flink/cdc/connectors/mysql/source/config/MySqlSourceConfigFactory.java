@@ -42,7 +42,7 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 @Internal
 public class MySqlSourceConfigFactory implements Serializable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MySqlSourceConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySqlSourceConfigFactory.class);
 
     private static final long serialVersionUID = 1L;
 

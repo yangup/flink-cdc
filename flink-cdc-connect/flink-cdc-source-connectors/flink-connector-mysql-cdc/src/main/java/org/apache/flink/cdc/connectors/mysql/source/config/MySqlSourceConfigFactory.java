@@ -232,7 +232,7 @@ public class MySqlSourceConfigFactory implements Serializable {
     /** Whether the {@link MySqlSource} should scan the newly added tables or not. */
     public MySqlSourceConfigFactory scanNewlyAddedTableEnabled(boolean scanNewlyAddedTableEnabled) {
         this.scanNewlyAddedTableEnabled = scanNewlyAddedTableEnabled;
-        LOGGER.info("scanNewlyAddedTableEnabled: {}", scanNewlyAddedTableEnabled);
+        LOGGER.info("scanNewlyAddedTableEnabled 1608: {}", scanNewlyAddedTableEnabled);
         return this;
     }
 
@@ -357,7 +357,7 @@ public class MySqlSourceConfigFactory implements Serializable {
         if (jdbcProperties == null) {
             jdbcProperties = new Properties();
         }
-        LOGGER.info("scanNewlyAddedTableEnabled 15:51: {}", scanNewlyAddedTableEnabled);
+        LOGGER.info("scanNewlyAddedTableEnabled 1608 15:51: {}", scanNewlyAddedTableEnabled);
         return new MySqlSourceConfig(
                 hostname,
                 port,

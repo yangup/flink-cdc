@@ -22,6 +22,8 @@ import org.apache.flink.cdc.connectors.mysql.source.config.MySqlSourceConfigFact
 import org.apache.flink.cdc.connectors.mysql.table.StartupOptions;
 import org.apache.flink.cdc.debezium.DebeziumDeserializationSchema;
 import org.apache.flink.table.catalog.ObjectPath;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Properties;
@@ -51,10 +53,14 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
  */
 @PublicEvolving
 public class MySqlSourceBuilder<T> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySqlSourceBuilder.class);
+
     private final MySqlSourceConfigFactory configFactory = new MySqlSourceConfigFactory();
     private DebeziumDeserializationSchema<T> deserializer;
 
     public MySqlSourceBuilder<T> hostname(String hostname) {
+        LOGGER.info("scanNewlyAddedTableEnabled 11620 15:51: {}", hostname);
         this.configFactory.hostname(hostname);
         return this;
     }
@@ -201,6 +207,7 @@ public class MySqlSourceBuilder<T> {
     /** Whether the {@link MySqlSource} should scan the newly added tables or not. */
     public MySqlSourceBuilder<T> scanNewlyAddedTableEnabled(boolean scanNewlyAddedTableEnabled) {
         this.configFactory.scanNewlyAddedTableEnabled(scanNewlyAddedTableEnabled);
+        LOGGER.info("scanNewlyAddedTableEnabled 1620 15:51: {}", scanNewlyAddedTableEnabled);
         return this;
     }
 

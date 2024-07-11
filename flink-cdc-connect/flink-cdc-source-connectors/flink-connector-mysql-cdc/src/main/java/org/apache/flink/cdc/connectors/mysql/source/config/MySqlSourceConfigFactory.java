@@ -357,7 +357,7 @@ public class MySqlSourceConfigFactory implements Serializable {
         if (jdbcProperties == null) {
             jdbcProperties = new Properties();
         }
-        LOGGER.info("scanNewlyAddedTableEnabled 1608 15:51: {}", scanNewlyAddedTableEnabled);
+        LOGGER.info("scanNewlyAddedTableEnabled 11620 15:51: {}", scanNewlyAddedTableEnabled);
         return new MySqlSourceConfig(
                 hostname,
                 port,

@@ -28,10 +28,16 @@ import org.apache.flink.cdc.connectors.mysql.source.config.MySqlSourceConfig;
 import org.apache.flink.cdc.connectors.mysql.source.config.MySqlSourceConfigFactory;
 import org.apache.flink.cdc.connectors.mysql.source.reader.MySqlPipelineRecordEmitter;
 import org.apache.flink.cdc.debezium.table.DebeziumChangelogMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/** A {@link DataSource} for mysql cdc connector. */
+/**
+ * A {@link DataSource} for mysql cdc connector.
+ */
 @Internal
 public class MySqlDataSource implements DataSource {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySqlDataSource.class);
 
     private final MySqlSourceConfigFactory configFactory;
     private final MySqlSourceConfig sourceConfig;
@@ -39,6 +45,7 @@ public class MySqlDataSource implements DataSource {
     public MySqlDataSource(MySqlSourceConfigFactory configFactory) {
         this.configFactory = configFactory;
         this.sourceConfig = configFactory.createConfig(0);
+        LOGGER.info("scanNewlyAddedTableEnabled, configFactory.class: {}", configFactory.getClass().getName());
     }
 
     @Override
@@ -55,6 +62,7 @@ public class MySqlDataSource implements DataSource {
                                 new MySqlPipelineRecordEmitter(
                                         deserializer, sourceReaderMetrics, sourceConfig));
 
+        LOGGER.info("scanNewlyAddedTableEnabled, getEventSourceProvider, configFactory.class: {}", configFactory.getClass().getName());
         return FlinkSourceProvider.of(source);
     }
 

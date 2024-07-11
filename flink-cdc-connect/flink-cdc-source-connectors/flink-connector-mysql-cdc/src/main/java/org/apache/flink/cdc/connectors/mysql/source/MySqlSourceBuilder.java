@@ -60,7 +60,7 @@ public class MySqlSourceBuilder<T> {
     private DebeziumDeserializationSchema<T> deserializer;
 
     public MySqlSourceBuilder<T> hostname(String hostname) {
-        LOGGER.info("scanNewlyAddedTableEnabled 11620 15:51: {}", hostname);
+        LOGGER.info("scanNewlyAddedTableEnabled 1650: {}", hostname);
         this.configFactory.hostname(hostname);
         return this;
     }

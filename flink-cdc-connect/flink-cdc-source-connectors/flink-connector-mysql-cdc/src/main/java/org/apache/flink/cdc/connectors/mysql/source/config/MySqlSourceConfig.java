@@ -123,7 +123,7 @@ public class MySqlSourceConfig implements Serializable {
         this.jdbcProperties = jdbcProperties;
         this.chunkKeyColumns = chunkKeyColumns;
         this.skipSnapshotBackfill = skipSnapshotBackfill;
-        LOGGER.info("scanNewlyAddedTableEnabled: {}", scanNewlyAddedTableEnabled);
+        LOGGER.info("scanNewlyAddedTableEnabled 15:51: {}", scanNewlyAddedTableEnabled);
     }
 
     public String getHostname() {

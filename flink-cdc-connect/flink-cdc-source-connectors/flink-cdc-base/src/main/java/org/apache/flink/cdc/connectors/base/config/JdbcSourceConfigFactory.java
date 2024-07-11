@@ -22,6 +22,8 @@ import org.apache.flink.cdc.connectors.base.config.SourceConfig.Factory;
 import org.apache.flink.cdc.connectors.base.options.JdbcSourceOptions;
 import org.apache.flink.cdc.connectors.base.options.SourceOptions;
 import org.apache.flink.cdc.connectors.base.options.StartupOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -33,7 +35,7 @@ import java.util.Properties;
 public abstract class JdbcSourceConfigFactory implements Factory<JdbcSourceConfig> {
 
     private static final long serialVersionUID = 1L;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcSourceConfigFactory.class);
     protected int port;
     protected String hostname;
     protected String username;
@@ -249,6 +251,7 @@ public abstract class JdbcSourceConfigFactory implements Factory<JdbcSourceConfi
     /** Whether the {@link SourceConfig} should scan the newly added tables or not. */
     public JdbcSourceConfigFactory scanNewlyAddedTableEnabled(boolean scanNewlyAddedTableEnabled) {
         this.scanNewlyAddedTableEnabled = scanNewlyAddedTableEnabled;
+        LOGGER.info("scanNewlyAddedTableEnabled: {}", scanNewlyAddedTableEnabled);
         return this;
     }
 

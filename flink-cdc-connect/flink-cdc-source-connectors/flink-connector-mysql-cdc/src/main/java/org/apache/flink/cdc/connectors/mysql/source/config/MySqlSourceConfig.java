@@ -24,6 +24,8 @@ import org.apache.flink.table.catalog.ObjectPath;
 import io.debezium.config.Configuration;
 import io.debezium.connector.mysql.MySqlConnectorConfig;
 import io.debezium.relational.RelationalTableFilters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 
@@ -38,7 +40,7 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 /** A MySql Source configuration which is used by {@link MySqlSource}. */
 public class MySqlSourceConfig implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySqlSourceConfig.class);
     private final String hostname;
     private final int port;
     private final String username;
@@ -121,6 +123,7 @@ public class MySqlSourceConfig implements Serializable {
         this.jdbcProperties = jdbcProperties;
         this.chunkKeyColumns = chunkKeyColumns;
         this.skipSnapshotBackfill = skipSnapshotBackfill;
+        LOGGER.info("scanNewlyAddedTableEnabled: {}", scanNewlyAddedTableEnabled);
     }
 
     public String getHostname() {

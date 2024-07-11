@@ -22,6 +22,8 @@ import org.apache.flink.cdc.connectors.mysql.debezium.EmbeddedFlinkDatabaseHisto
 import org.apache.flink.cdc.connectors.mysql.source.MySqlSource;
 import org.apache.flink.cdc.connectors.mysql.table.StartupOptions;
 import org.apache.flink.table.catalog.ObjectPath;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -39,6 +41,8 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 /** A factory to construct {@link MySqlSourceConfig}. */
 @Internal
 public class MySqlSourceConfigFactory implements Serializable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MySqlSourceConfig.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -228,6 +232,7 @@ public class MySqlSourceConfigFactory implements Serializable {
     /** Whether the {@link MySqlSource} should scan the newly added tables or not. */
     public MySqlSourceConfigFactory scanNewlyAddedTableEnabled(boolean scanNewlyAddedTableEnabled) {
         this.scanNewlyAddedTableEnabled = scanNewlyAddedTableEnabled;
+        LOGGER.info("scanNewlyAddedTableEnabled: {}", scanNewlyAddedTableEnabled);
         return this;
     }
 

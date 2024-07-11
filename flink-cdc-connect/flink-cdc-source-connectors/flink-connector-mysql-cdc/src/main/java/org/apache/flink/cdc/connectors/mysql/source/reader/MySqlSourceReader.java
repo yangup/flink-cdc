@@ -232,6 +232,7 @@ public class MySqlSourceReader<T>
         // restore for finishedUnackedSplits
         List<MySqlSplit> unfinishedSplits = new ArrayList<>();
         for (MySqlSplit split : splits) {
+            LOG.info("yangpu_test_1");
             LOG.info("Source reader {} adds split {}", subtaskId, split);
             if (split.isSnapshotSplit()) {
                 MySqlSnapshotSplit snapshotSplit = split.asSnapshotSplit();

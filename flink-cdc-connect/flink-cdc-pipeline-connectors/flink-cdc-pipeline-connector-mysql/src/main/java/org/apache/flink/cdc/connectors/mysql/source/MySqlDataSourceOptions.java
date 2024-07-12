@@ -247,7 +247,7 @@ public class MySqlDataSourceOptions {
     public static final ConfigOption<Boolean> SCAN_NEWLY_ADDED_TABLE_ENABLED =
             ConfigOptions.key("scan.newly-added-table.enabled")
                     .booleanType()
-                    .defaultValue(true)
+                    .defaultValue(false)
                     .withDescription(
                             "Whether capture the newly added tables when restoring from a savepoint/checkpoint or not, by default is false.");
 
